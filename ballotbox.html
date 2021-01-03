@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Please cast your vote on ballot box !!</h1>
+    <h2 id="vote_cast"></h2>
+    <h1 id="alreadyvoted"></h1>
+</body>
+<script>
+    var formData = new FormData();
+    formData.append("voterid", "ABC123");
+    // formData.append("booth_password", u_password);
+        fetch('http://voting-back.atwebpages.com/changevotestatus.php', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.text()).then(response => {
+            console.log(response);
+            if (JSON.parse(response)[0].message === "success") {
+                // setTimeout(function () {
+                    document.getElementById("vote_cast").innerHTML = "Successfully Vote casted <br> Thanks for voting !!";
+                    setTimeout(function () {
+                     location.href = "index.html" ;
+                    }, 3000);
+                // }, 2000);
+                // location.href = "index.html";
+            }
+            else {
+                document.getElementById("alreadyvoted").innerHTML = "Pls contact service desk";
+                // console.log("not");
+                setTimeout(function () { location.href = "index.html" }, 2000);
+            }
+
+        })
+            .catch(err => console.log(err));
+</script>
+
+</html>
